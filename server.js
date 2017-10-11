@@ -12,7 +12,47 @@ app.use(bodyParser.json());
  * DATABASE *
  ************/
 
-// var db = require('./models');
+var db = require('./models');
+
+let myData = [
+name = "Marissa",
+github_profile = "https://github.com/mfullford",
+github_profile_image = "https://avatars1.githubusercontent.com/u/31824846?v=4&s=460",
+current_city = "Denver",
+friends = [
+{name: "Brandon", age: 22, location: "Denver, Colorado"},
+{name: "Eunice", age: 23, location: "Dublin, Ireland"}, 
+{name: "Dylan", age: 24, location: "Washington DC"},
+{name: "Alaina", age: 22, location: "Phoenix, Arizona"}
+]
+];
+
+var hikes = [
+	{
+	id: 1,
+	name: "Panoramic Point",
+	location: "Kings Canyon National Park, California",
+	length_miles: 1
+	},
+{
+	id: 2,
+	name: "Cibecue Falls",
+	location: "Whiteriver, Arizona",
+	length_miles: 4
+	},
+	{
+	id: 3,
+	name: "Billy Goat Trail",
+	location: "Washington DC",
+	length_miles: 4.7
+	},
+	{
+	id: 4,
+	name: "Bridal Veil Falls",
+	location: "Alpines Lakes Wilderness, Washington",
+	length_miles: 4
+	},
+];
 
 /**********
  * ROUTES *
@@ -30,6 +70,14 @@ app.get('/', function homepage(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/api/profile', function homepage(req, res) {
+  res.send(myData);
+});
+
+app.get('/api/hikes', function homepage(req, res) {
+	res.send(hikes);
+})
+
 
 /*
  * JSON API Endpoints
@@ -40,12 +88,12 @@ app.get('/api', function api_index(req, res) {
   res.json({
     woops_i_has_forgot_to_document_all_my_endpoints: true, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
-    documentation_url: "https://github.com/example-username/express_self_api/README.md", // CHANGE ME
+    documentation_url: "https://github.com/mfullford/express-personal-api/blob/master/README.md",
     base_url: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/campsites", description: "E.g. Create a new campsite"} // CHANGE ME
+      {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"} // CHANGE ME
     ]
   })
 });
