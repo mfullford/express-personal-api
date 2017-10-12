@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 
 var db = require('./models');
 
+
+
 let myData = [
 name = "Marissa",
 github_profile = "https://github.com/mfullford",
@@ -27,50 +29,50 @@ friends = [
 ]
 ];
 
-let hikes = [
-	{
-	id: 1,
-	name: "Panoramic Point",
-	location: "Kings Canyon National Park, California",
-	length_miles: 1
-	},
-{
-	id: 2,
-	name: "Cibecue Falls",
-	location: "Whiteriver, Arizona",
-	length_miles: 4
-	},
-	{
-	id: 3,
-	name: "Billy Goat Trail",
-	location: "Washington DC",
-	length_miles: 4.7
-	},
-	{
-	id: 4,
-	name: "Bridal Veil Falls",
-	location: "Alpines Lakes Wilderness, Washington",
-	length_miles: 4
-	},
-	{
-	id: 5,
-	name: "Mt. Pilatus",
-	location: "Lucerne, Switzerland",
-	length_miles: 7
-	},
-	{
-	id: 6,
-	name: "Camins de Ronda",
-	location: "Costa Brava, Spain",
-	length_miles: 3
-	},
-	{
-	id: 7,
-	name: "Butterfly Valley",
-	location: "Fetihye, Turkey",
-	length_miles: 4
-	},
-];
+// let hikes = [
+// 	{
+// 	id: 1,
+// 	name: "Panoramic Point",
+// 	location: "Kings Canyon National Park, California",
+// 	length_miles: 1
+// 	},
+// {
+// 	id: 2,
+// 	name: "Cibecue Falls",
+// 	location: "Whiteriver, Arizona",
+// 	length_miles: 4
+// 	},
+// 	{
+// 	id: 3,
+// 	name: "Billy Goat Trail",
+// 	location: "Washington DC",
+// 	length_miles: 4.7
+// 	},
+// 	{
+// 	id: 4,
+// 	name: "Bridal Veil Falls",
+// 	location: "Alpines Lakes Wilderness, Washington",
+// 	length_miles: 4
+// 	},
+// 	{
+// 	id: 5,
+// 	name: "Mt. Pilatus",
+// 	location: "Lucerne, Switzerland",
+// 	length_miles: 7
+// 	},
+// 	{
+// 	id: 6,
+// 	name: "Camins de Ronda",
+// 	location: "Costa Brava, Spain",
+// 	length_miles: 3
+// 	},
+// 	{
+// 	id: 7,
+// 	name: "Butterfly Valley",
+// 	location: "Fetihye, Turkey",
+// 	length_miles: 4
+// 	},
+// ];
 
 /**********
  * ROUTES *
@@ -96,7 +98,12 @@ app.get('/api/profile', function homepage(req, res) {
 
 // show my hikes
 app.get('/api/hikes', function homepage(req, res) {
-	res.json(hikes);
+	db.Hike.find({}, function(err, hikes) {
+		if (err){
+			return console.log("Error:", err);
+ 		}
+		res.json(hikes); 		
+	});
 });
 
 // show just one hike
@@ -105,21 +112,52 @@ app.get('/api/hikes/:id', function(req,res) {
 	res.json(hikes[index]);
 });
 
-// create new hike - not done
-app.post('/', function(req, res) {
-	console.log("Creating a new fun hike")
-	hikes.push(req.body);
-	res.json("Create");
+// create new hike
+
+// app.post('/api/hikes', function(req, res) {
+// 	console.log(req)
+// 	var newHike = {
+// 		"name": req.body.name,
+// 		"location": req.body.location,
+// 		"length_miles": req.body.length_miles
+// 	}
+// 	res.json(newHike);
+// });
+
+app.post('/api/hikes', function hikes_create(req,res) {
+
+  var newHike = {
+		"name": req.body.name,
+		"location": req.body.location,
+		"length_miles": req.body.length_miles
+  };
+
+  db.Hike.create(newHike, function(err, hike) {
+    res.json(newHike);
+  });
+  
 });
 
-// update hike - not done
+
+// update hike - doneish
 app.put('/:id', function(req, res) {
-	res.send("Update");
+	index = req.params.id;
+	updateHike = hikes[index];
+	// Set id property to request parameters id
+	// identify each of the params
+	updateHike.name = req.body.name;
+	updateHike.location = req.body.location;
+	updateHike.location = req.body.length_miles;
+	// Show updated hike
+	res.json(updateHike);
 });
 
-// delete sinlge hike - not done
+
+// delete sinlge hike - doneish
 app.delete('/:id', function(req, res) {
-	res.send("Delete");
+	index = req.params.id;
+	hikes.splice(index, 1);
+	res.json(Hikes);
 });
 
 
