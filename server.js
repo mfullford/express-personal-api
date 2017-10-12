@@ -27,7 +27,7 @@ friends = [
 ]
 ];
 
-var hikes = [
+let hikes = [
 	{
 	id: 1,
 	name: "Panoramic Point",
@@ -52,6 +52,24 @@ var hikes = [
 	location: "Alpines Lakes Wilderness, Washington",
 	length_miles: 4
 	},
+	{
+	id: 5,
+	name: "Mt. Pilatus",
+	location: "Lucerne, Switzerland",
+	length_miles: 7
+	},
+	{
+	id: 6,
+	name: "Camins de Ronda",
+	location: "Costa Brava, Spain",
+	length_miles: 3
+	},
+	{
+	id: 7,
+	name: "Butterfly Valley",
+	location: "Fetihye, Turkey",
+	length_miles: 4
+	},
 ];
 
 /**********
@@ -66,17 +84,43 @@ app.use(express.static('public'));
  * HTML Endpoints
  */
 
+// show home page
 app.get('/', function homepage(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+// show profile page
 app.get('/api/profile', function homepage(req, res) {
-  res.send(myData);
+  res.json(myData);
 });
 
+// show my hikes
 app.get('/api/hikes', function homepage(req, res) {
-	res.send(hikes);
-})
+	res.json(hikes);
+});
+
+// show just one hike
+app.get('/api/hikes/:id', function(req,res) {
+	index = req.params.id;
+	res.json(hikes[index]);
+});
+
+// create new hike - not done
+app.post('/', function(req, res) {
+	console.log("Creating a new fun hike")
+	hikes.push(req.body);
+	res.json("Create");
+});
+
+// update hike - not done
+app.put('/:id', function(req, res) {
+	res.send("Update");
+});
+
+// delete sinlge hike - not done
+app.delete('/:id', function(req, res) {
+	res.send("Delete");
+});
 
 
 /*
