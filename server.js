@@ -140,24 +140,49 @@ app.post('/api/hikes', function hikes_create(req,res) {
 
 
 // update hike - doneish
-app.put('/:id', function(req, res) {
-	index = req.params.id;
-	updateHike = hikes[index];
-	// Set id property to request parameters id
-	// identify each of the params
-	updateHike.name = req.body.name;
-	updateHike.location = req.body.location;
-	updateHike.location = req.body.length_miles;
-	// Show updated hike
-	res.json(updateHike);
+// app.put('/:id', function(req, res) {
+// 	index = req.params.id;
+// 	updateHike = hikes[index];
+// 	// Set id property to request parameters id
+// 	// identify each of the params
+// 	updateHike.name = req.body.name;
+// 	updateHike.location = req.body.location;
+// 	updateHike.location = req.body.length_miles;
+// 	// Show updated hike
+// 	res.json(updateHike);
+// });
+
+app.put('/api/hikes/:id', function(req,res) {
+  let searchId = req.params.id; 
+  db.Hike.findOne({_id: searchId }, function(err, hike) {
+    if (err) {
+      return console.log("Error!" + err);
+    } else {
+    	updateHike.name = req.body.name;
+		updateHike.location = req.body.location;
+		updateHike.location = req.body.length_miles;
+
+      hike.save(function(err) {
+        if (err) {
+          console.log(err);
+        }
+      }); 
+      res.json(hike);
+    };
+  });
 });
 
 
 // delete sinlge hike - doneish
-app.delete('/:id', function(req, res) {
-	index = req.params.id;
-	hikes.splice(index, 1);
-	res.json(Hikes);
+app.delete('/api/hikes/:id', function(req,res) {
+  let searchId = req.params.id; 
+  db.Hike.remove({_id: searchId }, function(err, hike) {
+    if (err) {
+      return console.log("Error!" + err);
+    } else {
+      res.json(hikes);
+    }
+  });
 });
 
 
@@ -171,11 +196,11 @@ app.get('/api', function api_index(req, res) {
     woops_i_has_forgot_to_document_all_my_endpoints: true, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
     documentation_url: "https://github.com/mfullford/express-personal-api/blob/master/README.md",
-    base_url: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
+    base_url: "https://fast-sea-65239.herokuapp.com/", // changed
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"} // CHANGE ME
+      {method: "GET", path: "/api/profile", description: "Data about me"}, // changed
+      {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"} // changed
     ]
   })
 });
