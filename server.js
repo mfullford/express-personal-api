@@ -29,50 +29,7 @@ friends = [
 ]
 ];
 
-// let hikes = [
-// 	{
-// 	id: 1,
-// 	name: "Panoramic Point",
-// 	location: "Kings Canyon National Park, California",
-// 	length_miles: 1
-// 	},
-// {
-// 	id: 2,
-// 	name: "Cibecue Falls",
-// 	location: "Whiteriver, Arizona",
-// 	length_miles: 4
-// 	},
-// 	{
-// 	id: 3,
-// 	name: "Billy Goat Trail",
-// 	location: "Washington DC",
-// 	length_miles: 4.7
-// 	},
-// 	{
-// 	id: 4,
-// 	name: "Bridal Veil Falls",
-// 	location: "Alpines Lakes Wilderness, Washington",
-// 	length_miles: 4
-// 	},
-// 	{
-// 	id: 5,
-// 	name: "Mt. Pilatus",
-// 	location: "Lucerne, Switzerland",
-// 	length_miles: 7
-// 	},
-// 	{
-// 	id: 6,
-// 	name: "Camins de Ronda",
-// 	location: "Costa Brava, Spain",
-// 	length_miles: 3
-// 	},
-// 	{
-// 	id: 7,
-// 	name: "Butterfly Valley",
-// 	location: "Fetihye, Turkey",
-// 	length_miles: 4
-// 	},
-// ];
+
 
 /**********
  * ROUTES *
@@ -140,27 +97,28 @@ app.post('/api/hikes', function hikes_create(req,res) {
 
 
 // update hike - doneish
-// app.put('/:id', function(req, res) {
-// 	index = req.params.id;
-// 	updateHike = hikes[index];
-// 	// Set id property to request parameters id
-// 	// identify each of the params
-// 	updateHike.name = req.body.name;
-// 	updateHike.location = req.body.location;
-// 	updateHike.location = req.body.length_miles;
-// 	// Show updated hike
-// 	res.json(updateHike);
-// });
+app.put('/:id', function(req, res) {
+	index = req.params.id;
+	updateHike = hikes[index];
+	// Set id property to request parameters id
+	// identify each of the params
+	updateHike.name = req.body.name;
+	updateHike.location = req.body.location;
+	updateHike.location = req.body.length_miles;
+	// Show updated hike
+	res.json(updateHike);
+});
 
+// put
 app.put('/api/hikes/:id', function(req,res) {
   let searchId = req.params.id; 
   db.Hike.findOne({_id: searchId }, function(err, hike) {
     if (err) {
       return console.log("Error!" + err);
     } else {
-    	updateHike.name = req.body.name;
-		updateHike.location = req.body.location;
-		updateHike.location = req.body.length_miles;
+      updateHike.name = req.body.name;
+		  updateHike.location = req.body.location;
+		  updateHike.location = req.body.length_miles;
 
       hike.save(function(err) {
         if (err) {
@@ -206,7 +164,7 @@ app.get('/api', function api_index(req, res) {
 });
 
 app.get('/api/hikes', function hike_index(req, res) {
-  res.sendFile('seed.js' , { root : __dirname});
+  res.json('seed.js' , { root : __dirname});
 });
 
 /**********
