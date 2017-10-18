@@ -205,6 +205,10 @@ app.get('/api', function api_index(req, res) {
   })
 });
 
+app.get('/api/hikes', function hike_index(req, res) {
+  res.sendFile('seed.js' , { root : __dirname});
+});
+
 /**********
  * SERVER *
  **********/
