@@ -66,50 +66,27 @@ app.get('/api/hikes', function homepage(req, res) {
 // show just one hike
 app.get('/api/hikes/:id', function(req,res) {
 	index = req.params.id;
-	res.json(hikes[index]);
-});
-
-// create new hike
-
-// app.post('/api/hikes', function(req, res) {
-// 	console.log(req)
-// 	var newHike = {
-// 		"name": req.body.name,
-// 		"location": req.body.location,
-// 		"length_miles": req.body.length_miles
-// 	}
-// 	res.json(newHike);
-// });
-
-app.post('/api/hikes', function hikes_create(req,res) {
-
-  var newHike = {
-		"name": req.body.name,
-		"location": req.body.location,
-		"length_miles": req.body.length_miles
-  };
-
-  db.Hike.create(newHike, function(err, hike) {
-    res.json(newHike);
+  db.Hike.findOne({_id:index}, function(err, hike) {
+	 res.json(hikes[index]);
   });
-  
 });
 
 
-// update hike - doneish
-app.put('/:id', function(req, res) {
-	index = req.params.id;
-	updateHike = hikes[index];
-	// Set id property to request parameters id
-	// identify each of the params
-	updateHike.name = req.body.name;
-	updateHike.location = req.body.location;
-	updateHike.location = req.body.length_miles;
-	// Show updated hike
-	res.json(updateHike);
+//create new hike
+app.post('/api/hikes', function (req, res) {
+   let newHike = new db.Hike({
+    "name": req.body.name,
+    "description": req.body.location,
+    "length_miles": req.body.length_miles
+  });
+  newHike.save(function (err, hike) {
+    if (err) throw err;
+    res.json(hike);
+  });
 });
 
-// put
+
+// Update a hike
 app.put('/api/hikes/:id', function(req,res) {
   let searchId = req.params.id; 
   db.Hike.findOne({_id: searchId }, function(err, hike) {
@@ -118,8 +95,7 @@ app.put('/api/hikes/:id', function(req,res) {
     } else {
       updateHike.name = req.body.name;
 		  updateHike.location = req.body.location;
-		  updateHike.location = req.body.length_miles;
-
+		  updateHike.length_miles = req.body.length_miles;
       hike.save(function(err) {
         if (err) {
           console.log(err);
@@ -131,15 +107,16 @@ app.put('/api/hikes/:id', function(req,res) {
 });
 
 
-// delete sinlge hike - doneish
-app.delete('/api/hikes/:id', function(req,res) {
-  let searchId = req.params.id; 
-  db.Hike.remove({_id: searchId }, function(err, hike) {
+
+// delete sinlge hike - done
+
+app.delete('/api/hikes/:id', function(req, res) {
+  index =req.params.id;
+  db.Hike.findOneAndRemove({_id:index}, function(err, vacation) {
     if (err) {
-      return console.log("Error!" + err);
-    } else {
-      res.json(hikes);
+      console.log("ERROR:" + err);
     }
+    res.send("Hike deleted");
   });
 });
 
@@ -159,6 +136,10 @@ app.get('/api', function api_index(req, res) {
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "Data about me"}, // changed
       {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"} // changed
+      {method: "POST", path: "/api/hikes", description: "Add a hike"}, // CHANGED
+      {method: "GET", path: "/api/hikes/:id", description: "View one hike"},
+      {method: "PUT", path: "/api/hikes/:id", description: "Update an existing hike"},
+      {method: "DELETE", path: "/api/hikes/:id", description: "Delete a hike"}
     ]
   })
 });
