@@ -22,10 +22,10 @@ github_profile = "https://github.com/mfullford",
 github_profile_image = "https://avatars1.githubusercontent.com/u/31824846?v=4&s=460",
 current_city = "Denver",
 friends = [
-{name: "Brandon", age: 22, location: "Denver, Colorado"},
-{name: "Eunice", age: 23, location: "Dublin, Ireland"}, 
-{name: "Dylan", age: 24, location: "Washington DC"},
-{name: "Alaina", age: 22, location: "Phoenix, Arizona"}
+  {name: "Brandon", age: 22, location: "Denver, Colorado"},
+  {name: "Eunice", age: 23, location: "Dublin, Ireland"}, 
+  {name: "Dylan", age: 24, location: "Washington DC"},
+  {name: "Alaina", age: 22, location: "Phoenix, Arizona"}
 ]
 ];
 
@@ -135,7 +135,7 @@ app.get('/api', function api_index(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "Data about me"}, // changed
-      {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"} // changed
+      {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"}, // changed
       {method: "POST", path: "/api/hikes", description: "Add a hike"}, // CHANGED
       {method: "GET", path: "/api/hikes/:id", description: "View one hike"},
       {method: "PUT", path: "/api/hikes/:id", description: "Update an existing hike"},
