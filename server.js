@@ -66,7 +66,7 @@ app.get('/api/hikes', function homepage(req, res) {
 // show just one hike
 app.get('/api/hikes/:id', function(req,res) {
 	index = req.params.id;
-  db.Hike.findOne({_id:index}, function(err, hike) {
+  db.Hike.findOne({_id:index}, function(err, hikes) {
 	 res.json(hikes[index]);
   });
 });
@@ -79,9 +79,9 @@ app.post('/api/hikes', function (req, res) {
     "description": req.body.location,
     "length_miles": req.body.length_miles
   });
-  newHike.save(function (err, hike) {
+  newHike.save(function (err, hikes) {
     if (err) throw err;
-    res.json(hike);
+    res.json(hikes);
   });
 });
 
@@ -93,15 +93,15 @@ app.put('/api/hikes/:id', function(req,res) {
     if (err) {
       return console.log("Error!" + err);
     } else {
-      updateHike.name = req.body.name;
-		  updateHike.location = req.body.location;
-		  updateHike.length_miles = req.body.length_miles;
+      hike.name = req.body.name;
+		  hike.location = req.body.location;
+		  hike.length_miles = req.body.length_miles;
       hike.save(function(err) {
         if (err) {
           console.log(err);
         }
       }); 
-      res.json(hike);
+      res.json(hikes);
     };
   });
 });
