@@ -89,23 +89,23 @@ app.post('/api/hikes', function (req, res) {
 // Update a hike
 app.put('/api/hikes/:id', function(req,res) {
   let searchId = req.params.id; 
-  db.Hike.findOne({_id: searchId }, function(err, hike) {
+  db.Hike.findOne({_id: req.params.id}, function(err, hike) {
     if (err) {
       return console.log("Error!" + err);
     } else {
       hike.name = req.body.name;
 		  hike.location = req.body.location;
 		  hike.length_miles = req.body.length_miles;
-      hike.save(function(err) {
+
+      hike.save(function(err, updatedHike) {
         if (err) {
-          console.log(err);
+          return console.log(err);
         }
       }); 
-      res.json(hikes);
+      res.json(updatedHike);
     };
   });
 });
-
 
 
 // delete sinlge hike - done
@@ -135,7 +135,7 @@ app.get('/api', function api_index(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "Data about me"}, // changed
-      {method: "POST", path: "/api/hikes", description: "Check out some hikes I've done!"}, // changed
+      {method: "GET", path: "/api/profiles", description: "INDEX of my favorite hikes"},
       {method: "POST", path: "/api/hikes", description: "Add a hike"}, // CHANGED
       {method: "GET", path: "/api/hikes/:id", description: "View one hike"},
       {method: "PUT", path: "/api/hikes/:id", description: "Update an existing hike"},

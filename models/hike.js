@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 var HikeSchema = new Schema({
 name: String,

@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:3000/api');
 
 
-let hikes = [
+let new_hikes = [
 	{
 	id: 1,
 	name: "Panoramic Point",
@@ -61,7 +61,8 @@ let hikes = [
 // }
 
 
-db.Hike.create(hikes, function(err, hike){
+
+db.Hike.create(new_hikes, function(err, hike){
   if (err){
     return console.log("Error:", err);
   }
